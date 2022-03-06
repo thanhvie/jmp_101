@@ -183,7 +183,7 @@ png(585,"eJzrDPBz5+WS4mJgYOD19HAJYmBgvAJkS3OwAcmj7+p2AinG4iB3J4Z152ReAjkVqRGeab6
 )),size(468,29),))))),
 ListBox(vertical,near,sub(
 OutlineBox(
-open(1),title("The JMP interface"),closeOrient(1),default font id(2),sub(
+open(0),title("The JMP interface"),closeOrient(1),default font id(2),sub(
 ListBox(vertical,near,sub(
 ListBox(horizontal,near,sub(
 ListBox(horizontal,near,sub(
