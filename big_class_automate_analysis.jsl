@@ -1,0 +1,143 @@
+Names Default To Here(1);
+
+
+//Open Data Table
+dt = Open("$SAMPLE_DATA/Big Class.jmp");
+
+
+// Distribution of weight and age
+Distribution(
+	Continuous Distribution( Column( :weight ), Vertical( 0 ) ),
+	Nominal Distribution( Column( :age ), Vertical( 0 ) ),
+	SendToReport(
+		Dispatch(
+			{},
+			"Distributions",
+			OutlineBox,
+			{Set Title( "Distributions of weight and age" )}
+		)
+	)
+);
+
+
+// Graph Builder to visualize weight vs height correlation
+Graph Builder(
+	Show Control Panel( 0 ),
+	Variables( X( :height ), Y( :weight ), Overlay( :sex ) ),
+	Elements( Points( X, Y, Legend( 1 ) ), Smoother( X, Y, Legend( 2 ) ) )
+);
+
+
+// Graph Builder to visualize Mean(height) & height vs age
+Graph Builder(
+	Show Control Panel( 0 ),
+	Variables( X( :age ), Y( :height ), Overlay( :sex ) ),
+	Elements( Line( X, Y, Legend( 3 ) ), Points( X, Y, Legend( 4 ) ) ),
+	SendToReport(
+		Dispatch(
+			{},
+			"400",
+			ScaleBox,
+			{Legend Model(
+				4,
+				Base( 0, 0, 0, Item ID( "F", 1 ) ),
+				Base( 1, 0, 1, Item ID( "M", 1 ) ),
+				Properties( 0, {Marker( "Plus" )}, Item ID( "F", 1 ) ),
+				Properties( 1, {Marker( "Square" )}, Item ID( "M", 1 ) )
+			)}
+		)
+	)
+);
+
+
+// Six Qualities Graph
+New Window( "Big Class - Application",
+	H List Box(
+		V List Box(
+			Control Chart(
+				Sample Size( 5 ),
+				KSigma( 3 ),
+				Chart Col( :height, XBar, R ),
+				SendToReport(
+					Dispatch(
+						{"XBar of height"},
+						"Control Chart Limits frame",
+						FrameBox,
+						{Frame Size( 72, 208 )}
+					),
+					Dispatch(
+						{"R of height"},
+						"Control Chart Limits frame",
+						FrameBox,
+						{Frame Size( 72, 208 )}
+					)
+				)
+			),
+			Control Chart(
+				Sample Size( 5 ),
+				KSigma( 3 ),
+				Chart Col( :height, XBar( Box Plots( 1 ), Connect Points( 0 ) ) ),
+				SendToReport(
+					Dispatch(
+						{"XBar of height"},
+						"Variables Control Chart of XBar",
+						FrameBox,
+						{Frame Size( 313, 162 ),
+						DispatchSeg(
+							Box Plot Seg( 1 ),
+							{Confidence Diamond( 1 ), Line Color( "Light Gray" )}
+						), DispatchSeg(
+							Box Plot Seg( 2 ),
+							{Confidence Diamond( 1 ), Line Color( "Light Gray" )}
+						), DispatchSeg(
+							Box Plot Seg( 3 ),
+							{Confidence Diamond( 1 ), Line Color( "Light Gray" )}
+						), DispatchSeg(
+							Box Plot Seg( 4 ),
+							{Confidence Diamond( 1 ), Line Color( "Light Gray" )}
+						), DispatchSeg(
+							Box Plot Seg( 5 ),
+							{Confidence Diamond( 1 ), Line Color( "Light Gray" )}
+						), DispatchSeg(
+							Box Plot Seg( 6 ),
+							{Confidence Diamond( 1 ), Line Color( "Light Gray" )}
+						), DispatchSeg(
+							Box Plot Seg( 7 ),
+							{Confidence Diamond( 1 ), Line Color( "Light Gray" )}
+						), DispatchSeg(
+							Box Plot Seg( 8 ),
+							{Confidence Diamond( 1 ), Line Color( "Light Gray" )}
+						)}
+					),
+					Dispatch(
+						{"XBar of height"},
+						"Control Chart Limits frame",
+						FrameBox,
+						{Frame Size( 72, 162 )}
+					)
+				)
+			)
+		),
+		Distribution(
+			Continuous Distribution(
+				Column( :height ),
+				Quantiles( 0 ),
+				Summary Statistics( 0 ),
+				Vertical( 0 ),
+				Outlier Box Plot( 0 ),
+				Normal Quantile Plot( 1 ),
+				Capability Analysis( LSL( 55 ), USL( 70 ), Target( 63 ) )
+			),
+			SendToReport(
+				Dispatch(
+					{"height"},
+					"Distrib Histogram",
+					FrameBox,
+					{DispatchSeg( LabelSeg( 1 ), {Font( "Helvetica Neue", 12 )} ),
+					DispatchSeg( LabelSeg( 2 ), {Font( "Helvetica Neue", 12 )} ),
+					DispatchSeg( LabelSeg( 3 ), {Font( "Helvetica Neue", 12 )} )}
+				)
+			)
+		)
+	)
+);
