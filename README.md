@@ -1,5 +1,5 @@
 # jmp_101
-JMP 101 training material
+- This project contains the training material for JMP 101 class
 
 # requirement
 - JMP 16
